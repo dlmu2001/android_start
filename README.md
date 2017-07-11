@@ -1,11 +1,12 @@
 # android_start
-Something help to quickly start an commercial android app 
+Something help to start an commercial android app  quickly
 
 #  Fabric Crashlytics for crash statistics
 Fabric增加App需要使用插件，使用官方教程添加app,并进行验证
 
-因为要使用插件，在总工程的buildscript里面添加
-        
+因为要使用插件，在总工程的buildscript里面添加(增加
+完app后，后面可以删除这段)
+        
         buildscript {
           repositories {
             
@@ -17,7 +18,7 @@ Fabric增加App需要使用插件，使用官方教程添加app,并进行验证
             
          }
        }
-       
+       
 在总工程的allprojects添加
         
         allprojects {
