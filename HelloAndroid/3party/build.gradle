@@ -39,4 +39,8 @@ dependencies {
         transitive = true;
     }
     //Crashlytics setting end
+
+    //Timber
+    provided 'org.jetbrains:annotations:13.0'
+
 }
