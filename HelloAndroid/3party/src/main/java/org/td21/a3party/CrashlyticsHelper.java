@@ -39,4 +39,7 @@ public class CrashlyticsHelper {
     public static void logException(Exception e){
         Crashlytics.logException(e);
     }
+    public static void logException(Throwable t){
+        Crashlytics.logException(t);
+    }
 }

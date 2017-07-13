@@ -10,11 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsCore;
 
-import io.fabric.sdk.android.Fabric;
+
 import org.td21.a3party.CrashlyticsHelper;
+import org.td21.a3party.timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +22,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         CrashlyticsHelper.init(this);
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
+
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -39,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int index=5;
                 try {
                     throw new Exception("hxdg here");
                 } catch (Exception e) {

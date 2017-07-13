@@ -544,12 +544,16 @@ public final class Timber {
                 }
                 if (t != null) {
                     message += "\n" + getStackTraceString(t);
+                }else {
+                    message += getTrailer();
                 }
             }
 
             log(priority, tag, message, t);
         }
-
+        protected String getTrailer(){
+            return "";
+        }
         /**
          * Formats a log message with optional arguments.
          */
@@ -616,6 +620,31 @@ public final class Timber {
                         "Synthetic stacktrace didn't have enough elements: are you using proguard?");
             }
             return createStackElementTag(stackTrace[CALL_STACK_INDEX]);
+        }
+
+        @Override
+        protected String getTrailer() {
+            String trailer ="";
+            // DO NOT switch this to Thread.getCurrentThread().getStackTrace(). The test will pass
+            // because Robolectric runs them on the JVM but on Android the elements are different.
+            StackTraceElement[] stackTrace = new Throwable().getStackTrace();
+            if (stackTrace.length <= CALL_STACK_INDEX) {
+                throw new IllegalStateException(
+                        "Synthetic stacktrace didn't have enough elements: are you using proguard?");
+            }
+            StackTraceElement element = stackTrace[CALL_STACK_INDEX];
+
+            String className = element.getClassName();
+            Matcher m = ANONYMOUS_CLASS.matcher(className);
+            if (m.find()) {
+                className = m.replaceAll("");
+            }
+            className = className.substring(className.lastIndexOf('.') + 1);
+            trailer= className+".java";
+            trailer= "("+trailer+":";
+            trailer+=element.getLineNumber();
+            trailer+=")";
+            return trailer;
         }
 
         /**
