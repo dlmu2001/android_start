@@ -1,5 +1,9 @@
 package org.td21.a3party.timber.log;
 
+/*
+ * source from https://github.com/JakeWharton/timber.git
+ * introduced in the way of source because we may make some modification
+ */
 
 import android.util.Log;
 
