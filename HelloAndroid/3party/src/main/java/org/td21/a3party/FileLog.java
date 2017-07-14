@@ -203,13 +203,13 @@ public class FileLog {
             sdDir = Environment.getExternalStorageDirectory();// 获取跟目录
         }
         if (sdDir != null)
-            return sdDir.toString();
+            return sdDir.getAbsolutePath();
         else
             return null;
 
     }
     private String getLogsDirPath() {
-        return (getSDPath()
+        return (getSDPath()+File.separator
                 + LOGS_SUB_PATH);
     }
 

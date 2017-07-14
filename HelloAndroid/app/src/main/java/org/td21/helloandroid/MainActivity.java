@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         CrashlyticsHelper.init(this);
         LogUtil.init(BuildConfig.DEBUG);
+        LogUtil.enableFileLog();
 
 
         setContentView(R.layout.activity_main);

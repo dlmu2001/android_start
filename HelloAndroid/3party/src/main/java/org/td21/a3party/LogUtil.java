@@ -31,6 +31,13 @@ public class LogUtil {
             Timber.plant(new CrashlyticsTree());
         }
     }
+    private void enableFileLogInner(){
+        Timber.uprootAll();
+        Timber.plant(new FileLogTree());
+    }
+    public static void enableFileLog(){
+        getInstance().enableFileLogInner();
+    }
     public static void init(boolean isDebugVersion){
         getInstance().initInner(isDebugVersion);
     }
