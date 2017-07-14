@@ -5,14 +5,15 @@ package org.td21.a3party.timber.log;
  * introduced in the way of source because we may make some modification
  */
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
-import org.jetbrains.annotations.NonNls;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,12 +23,12 @@ import static java.util.Collections.unmodifiableList;
 /** Logging for lazy people. */
 public final class Timber {
     /** Log a verbose message with optional format args. */
-    public static void v(@NonNls String message, Object... args) {
+    public static void v(@NonNull String message, Object... args) {
         TREE_OF_SOULS.v(message, args);
     }
 
     /** Log a verbose exception and a message with optional format args. */
-    public static void v(Throwable t, @NonNls String message, Object... args) {
+    public static void v(Throwable t, @NonNull String message, Object... args) {
         TREE_OF_SOULS.v(t, message, args);
     }
 
@@ -37,12 +38,12 @@ public final class Timber {
     }
 
     /** Log a debug message with optional format args. */
-    public static void d(@NonNls String message, Object... args) {
+    public static void d(@NonNull String message, Object... args) {
         TREE_OF_SOULS.d(message, args);
     }
 
     /** Log a debug exception and a message with optional format args. */
-    public static void d(Throwable t, @NonNls String message, Object... args) {
+    public static void d(Throwable t, @NonNull String message, Object... args) {
         TREE_OF_SOULS.d(t, message, args);
     }
 
@@ -52,12 +53,12 @@ public final class Timber {
     }
 
     /** Log an info message with optional format args. */
-    public static void i(@NonNls String message, Object... args) {
+    public static void i(@NonNull String message, Object... args) {
         TREE_OF_SOULS.i(message, args);
     }
 
     /** Log an info exception and a message with optional format args. */
-    public static void i(Throwable t, @NonNls String message, Object... args) {
+    public static void i(Throwable t, @NonNull String message, Object... args) {
         TREE_OF_SOULS.i(t, message, args);
     }
 
@@ -67,12 +68,12 @@ public final class Timber {
     }
 
     /** Log a warning message with optional format args. */
-    public static void w(@NonNls String message, Object... args) {
+    public static void w(@NonNull String message, Object... args) {
         TREE_OF_SOULS.w(message, args);
     }
 
     /** Log a warning exception and a message with optional format args. */
-    public static void w(Throwable t, @NonNls String message, Object... args) {
+    public static void w(Throwable t, @NonNull String message, Object... args) {
         TREE_OF_SOULS.w(t, message, args);
     }
 
@@ -82,12 +83,12 @@ public final class Timber {
     }
 
     /** Log an error message with optional format args. */
-    public static void e(@NonNls String message, Object... args) {
+    public static void e(@NonNull String message, Object... args) {
         TREE_OF_SOULS.e(message, args);
     }
 
     /** Log an error exception and a message with optional format args. */
-    public static void e(Throwable t, @NonNls String message, Object... args) {
+    public static void e(Throwable t, @NonNull String message, Object... args) {
         TREE_OF_SOULS.e(t, message, args);
     }
 
@@ -96,13 +97,19 @@ public final class Timber {
         TREE_OF_SOULS.e(t);
     }
 
+    public static void begin(@NonNull String key){
+        TREE_OF_SOULS.begin(key);
+    }
+    public static void end(@NonNull String key){
+        TREE_OF_SOULS.end(key);
+    }
     /** Log an assert message with optional format args. */
-    public static void wtf(@NonNls String message, Object... args) {
+    public static void wtf(@NonNull String message, Object... args) {
         TREE_OF_SOULS.wtf(message, args);
     }
 
     /** Log an assert exception and a message with optional format args. */
-    public static void wtf(Throwable t, @NonNls String message, Object... args) {
+    public static void wtf(Throwable t, @NonNull String message, Object... args) {
         TREE_OF_SOULS.wtf(t, message, args);
     }
 
@@ -112,12 +119,12 @@ public final class Timber {
     }
 
     /** Log at {@code priority} a message with optional format args. */
-    public static void log(int priority, @NonNls String message, Object... args) {
+    public static void log(int priority, @NonNull String message, Object... args) {
         TREE_OF_SOULS.log(priority, message, args);
     }
 
     /** Log at {@code priority} an exception and a message with optional format args. */
-    public static void log(int priority, Throwable t, @NonNls String message, Object... args) {
+    public static void log(int priority, Throwable t, @NonNull String message, Object... args) {
         TREE_OF_SOULS.log(priority, t, message, args);
     }
 
@@ -386,6 +393,24 @@ public final class Timber {
         @Override protected void log(int priority, String tag, String message, Throwable t) {
             throw new AssertionError("Missing override for log method.");
         }
+
+        @Override
+        public void begin(@NonNull String key) {
+            Tree[] forest = forestAsArray;
+            //noinspection ForLoopReplaceableByForEach
+            for (int i = 0, count = forest.length; i < count; i++) {
+                forest[i].begin(key);
+            }
+        }
+
+        @Override
+        public void end(@NonNull String key) {
+            Tree[] forest = forestAsArray;
+            //noinspection ForLoopReplaceableByForEach
+            for (int i = 0, count = forest.length; i < count; i++) {
+                forest[i].end(key);
+            }
+        }
     };
 
     private Timber() {
@@ -498,7 +523,11 @@ public final class Timber {
         public void log(int priority, String message, Object... args) {
             prepareLog(priority, null, message, args);
         }
+        public void begin(@NonNull String key){
+        }
+        public void end(@NonNull String key){
 
+        }
         /** Log at {@code priority} an exception and a message with optional format args. */
         public void log(int priority, Throwable t, String message, Object... args) {
             prepareLog(priority, t, message, args);
@@ -586,7 +615,9 @@ public final class Timber {
     public static class DebugTree extends Tree {
         private static final int MAX_LOG_LENGTH = 4000;
         private static final int MAX_TAG_LENGTH = 23;
-        private static final int CALL_STACK_INDEX = 5;
+        private static final int CALL_STACK_INDEX = 6;
+        private final static Hashtable<String,Long> mRecordTable=new Hashtable<String, Long>(10);
+
         private static final Pattern ANONYMOUS_CLASS = Pattern.compile("(\\$\\d+)+$");
 
         /**
@@ -623,6 +654,24 @@ public final class Timber {
         }
 
         @Override
+        public void begin(@NonNull String key) {
+            long start_time = System.nanoTime();
+            mRecordTable.put(key, new Long(start_time));
+        }
+
+        @Override
+        public void end(@NonNull String key) {
+            long endTime = System.nanoTime();
+            Long startTime = mRecordTable.get(key);
+            if (startTime != null) {
+                long duration = endTime - startTime.longValue();
+                String s = String.format("%,d", duration);
+                d(key+" cost "+s);
+                mRecordTable.remove(key);
+            }
+        }
+
+        @Override
         protected String getTrailer() {
             String trailer ="";
             // DO NOT switch this to Thread.getCurrentThread().getStackTrace(). The test will pass
@@ -643,7 +692,8 @@ public final class Timber {
             trailer= className+".java";
             trailer= "("+trailer+":";
             trailer+=element.getLineNumber();
-            trailer+=")";
+            trailer+=")_";
+            trailer+=element.getMethodName();
             return trailer;
         }
 

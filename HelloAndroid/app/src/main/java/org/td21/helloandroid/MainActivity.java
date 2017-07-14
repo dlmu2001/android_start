@@ -13,7 +13,7 @@ import android.widget.Button;
 
 
 import org.td21.a3party.CrashlyticsHelper;
-import org.td21.a3party.timber.log.Timber;
+import org.td21.a3party.LogUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,9 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         CrashlyticsHelper.init(this);
-        if (BuildConfig.DEBUG) {
-            Timber.plant(new Timber.DebugTree());
-        }
+        LogUtil.init(BuildConfig.DEBUG);
 
 
         setContentView(R.layout.activity_main);
@@ -44,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 int index=5;
+                LogUtil.f();
                 try {
                     throw new Exception("hxdg here");
                 } catch (Exception e) {
