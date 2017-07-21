@@ -1,1 +1,1 @@
-include ':app', ':3party'
+include ':app', ':3party', ':common'
