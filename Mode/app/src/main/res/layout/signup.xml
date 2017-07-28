@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <EditText
+        android:layout_height="@dimen/edittext_default_height"
+        android:layout_width="@dimen/edittext_default_width"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="75dp"
+        android:id = "@+id/email"
+        android:hint="@string/email"
+        android:maxLines="1"
+        android:textColor="@color/gray_4d4d4d"
+        android:textColorHint="@color/gray_4d4d4d"
+        android:background="@drawable/round_corner_gray_gardient"
+        android:textSize="16sp"
+    />
+    <com.mode.app.mode.platform.ModeEditText
+        android:id="@+id/password"
+        android:layout_height="@dimen/edittext_default_height"
+        android:layout_width="@dimen/edittext_default_width"
+        android:hint="@string/password"
+        android:maxLines="1"
+        android:layout_alignLeft="@+id/email"
+        android:layout_below="@id/email"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/gray_4d4d4d"
+        android:textColorHint="@color/gray_4d4d4d"
+        android:background="@drawable/round_corner_gray_gardient"
+        android:textSize="16sp"
+        />
+    <Button
+        android:id="@+id/create_account"
+        android:layout_height="@dimen/edittext_default_height"
+        android:layout_width="@dimen/edittext_default_width"
+        android:layout_below="@id/password"
+        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true"
+        />
+</merge>

@@ -15,3 +15,18 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
+
+-keep class okio.** { *; }
+-dontwarn okio.**
+
+-keep class okhttp3.** { *; }
+-dontwarn okhttp3.**
+
+
+-keep class rx.** { *; }
+-dontwarn rx.**
